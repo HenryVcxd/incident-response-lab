@@ -3,7 +3,6 @@
 **Simulador de Respuesta ante Incidentes de Phishing Financiero**
 
 Prototipo de bajo nivel desarrollado para el curso Proyecto de Ingeniería I (UNAD, 2026).
-Complementa el "Portal CiberSeguro Financiero" (Karen) y el "Radar Antifraude" (Edwin),
 enfocándose en la **reacción y mitigación** cuando el incidente ya ocurrió.
 
 ## 🎯 Diferenciador
