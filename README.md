@@ -17,7 +17,7 @@ Mientras los otros prototipos enseñan a **NO caer** en phishing, este enseña
 
 ## 🧪 Plan de pruebas experimentales
 
-**Muestra:** 10 usuarios (familiares, amigos, compañeros).
+**Prueba en:** 10 usuarios (familiares, amigos, compañeros).
 
 **Protocolo por usuario:**
 1. Briefing de 2 minutos (NO explicar respuestas correctas).
