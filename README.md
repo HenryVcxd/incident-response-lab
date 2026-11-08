@@ -14,7 +14,7 @@ Mientras los otros prototipos enseñan a **NO caer** en phishing, este enseña
 ### Opción B: GitHub Pages
 1. Sube la carpeta a un repositorio público.
 2. Settings → Pages → Deploy from branch `main`.
-3. Accede a `https://tu-usuario.github.io/incident-response-lab/`
+3. Accede a https://henryvcxd.github.io/incident-response-lab/
 
 ## 🧪 Plan de pruebas experimentales
 
