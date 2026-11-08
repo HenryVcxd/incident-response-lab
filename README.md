@@ -51,4 +51,5 @@ Mientras los otros prototipos enseñan a **NO caer** en phishing, este enseña
 
 ## 👨‍💻 Autor
 Henry Vargas Cruz
+
 Proyecto colaborativo Grupo 429 · UNAD 2026
