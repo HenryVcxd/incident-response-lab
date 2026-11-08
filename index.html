@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IncidentResponse Lab | Simulador de Respuesta ante Phishing</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen">
+
+  <!-- HEADER -->
+  <header class="bg-gradient-to-r from-red-900 to-slate-900 border-b border-red-700 shadow-lg">
+    <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center text-xl">🛡️</div>
+        <div>
+          <h1 class="text-xl font-bold">IncidentResponse Lab</h1>
+          <p class="text-xs text-slate-300">Simulador de Respuesta ante Incidentes de Phishing</p>
+        </div>
+      </div>
+      <div class="text-right text-xs">
+        <div id="session-code" class="font-mono text-emerald-400">Sesión: ---</div>
+        <div class="text-slate-400">IEEE 7000-2021 · Cero PII</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="max-w-5xl mx-auto px-4 py-8">
+
+    <!-- PANTALLA DE INICIO -->
+    <section id="screen-start" class="space-y-6">
+      <div class="bg-slate-800 border border-slate-700 rounded-xl p-6">
+        <h2 class="text-2xl font-bold mb-3 text-red-400">⚠️ Bienvenido al Laboratorio de Respuesta</h2>
+        <p class="text-slate-300 mb-4">
+          Acabas de recibir un mensaje sospechoso. Tu misión es tomar las decisiones correctas
+          para <strong>minimizar el daño económico</strong> y <strong>reaccionar en el menor tiempo posible</strong>.
+        </p>
+        <div class="grid md:grid-cols-3 gap-4 mb-4">
+          <div class="bg-slate-900 p-3 rounded-lg border border-slate-700">
+            <div class="text-2xl">⏱️</div>
+            <div class="text-sm font-semibold">Tiempo</div>
+            <div class="text-xs text-slate-400">Cada decisión es cronometrada</div>
+          </div>
+          <div class="bg-slate-900 p-3 rounded-lg border border-slate-700">
+            <div class="text-2xl">💰</div>
+            <div class="text-sm font-semibold">Costo</div>
+            <div class="text-xs text-slate-400">Se acumula según tus errores</div>
+          </div>
+          <div class="bg-slate-900 p-3 rounded-lg border border-slate-700">
+            <div class="text-2xl">📊</div>
+            <div class="text-sm font-semibold">KPIs</div>
+            <div class="text-xs text-slate-400">Métricas cuantitativas al final</div>
+          </div>
+        </div>
+        <div class="bg-amber-900/30 border border-amber-700 rounded-lg p-3 text-sm text-amber-200">
+          🔒 <strong>Privacidad:</strong> No se recolectan datos personales. Todo se guarda localmente en tu navegador.
+        </div>
+      </div>
+
+      <button id="btn-start" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 rounded-xl text-lg transition">
+        🚀 Iniciar Simulación (7 escenarios)
+      </button>
+    </section>
+
+    <!-- PANTALLA DE ESCENARIO -->
+    <section id="screen-scenario" class="hidden space-y-4">
+      <div class="bg-slate-800 border border-slate-700 rounded-xl p-6">
+        <div class="flex justify-between items-center mb-4">
+          <div>
+            <span id="scenario-tag" class="text-xs bg-red-600 px-2 py-1 rounded">Escenario 1/4</span>
+            <h2 id="scenario-title" class="text-xl font-bold mt-2">Título</h2>
+          </div>
+          <div class="text-right">
+            <div class="text-xs text-slate-400">Tiempo decisión</div>
+            <div id="timer" class="text-2xl font-mono text-emerald-400">00:00</div>
+          </div>
+        </div>
+
+        <div id="scenario-context" class="bg-slate-900 border-l-4 border-red-500 p-4 rounded mb-4">
+          <!-- Contexto dinámico -->
+        </div>
+
+        <div id="options-container" class="space-y-3">
+          <!-- Opciones dinámicas -->
+        </div>
+      </div>
+
+      <!-- Feedback -->
+      <div id="feedback-box" class="hidden bg-slate-800 border border-slate-700 rounded-xl p-5">
+        <div id="feedback-icon" class="text-4xl mb-2"></div>
+        <h3 id="feedback-title" class="font-bold text-lg mb-2"></h3>
+        <p id="feedback-text" class="text-slate-300 mb-3"></p>
+        <div class="flex gap-3 text-sm">
+          <span class="bg-slate-900 px-3 py-1 rounded">⏱️ <span id="fb-time">0</span>s</span>
+          <span class="bg-slate-900 px-3 py-1 rounded">💰 +$<span id="fb-cost">0</span></span>
+          <span class="bg-slate-900 px-3 py-1 rounded">📉 Daño: <span id="fb-damage">0</span>%</span>
+        </div>
+        <button id="btn-next" class="mt-4 w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-lg">
+          Continuar →
+        </button>
+      </div>
+    </section>
+
+    <!-- PANTALLA DE RESULTADOS -->
+    <section id="screen-results" class="hidden space-y-6">
+      <div class="bg-slate-800 border border-emerald-700 rounded-xl p-6">
+        <h2 class="text-2xl font-bold text-emerald-400 mb-4">📊 Informe Cuantitativo de la Sesión</h2>
+        <div id="kpi-grid" class="grid md:grid-cols-2 gap-4 mb-6">
+          <!-- KPIs dinámicos -->
+        </div>
+        <div class="bg-slate-900 p-4 rounded-lg">
+          <h3 class="font-bold mb-3">📈 Gráfico: Tiempo vs. Costo por escenario</h3>
+          <canvas id="chart-scatter" height="150"></canvas>
+        </div>
+      </div>
+
+      <div class="bg-slate-800 border border-slate-700 rounded-xl p-6">
+        <h3 class="font-bold mb-3">💾 Exportar datos para análisis</h3>
+        <p class="text-sm text-slate-400 mb-3">Descarga los datos de tu sesión en formato CSV para el informe técnico.</p>
+        <div class="flex gap-3">
+          <button id="btn-export-csv" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">📥 Descargar CSV</button>
+          <button id="btn-restart" class="bg-slate-700 hover:bg-slate-600 text-white px-4 py-2 rounded-lg">🔄 Nueva sesión</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="text-center text-xs text-slate-500 py-6 border-t border-slate-800">
+    IncidentResponse Lab · Proyecto de Ingeniería I · UNAD 2026 · ODS 4 · IEEE 7000-2021
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
