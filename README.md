@@ -20,7 +20,7 @@ Mientras los otros prototipos enseñan a **NO caer** en phishing, este enseña
 **Prueba en:** 10 usuarios (familiares, amigos, compañeros).
 
 **Protocolo por usuario:**
-1. Briefing de 2 minutos (NO explicar respuestas correctas).
+1. Briefing de 2 minutos (sin explicar respuestas correctas).
 2. Ejecutar los 7 escenarios en orden.
 3. Exportar CSV al finalizar.
 4. Registrar en tabla maestra:
