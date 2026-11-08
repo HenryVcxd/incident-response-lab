@@ -11,10 +11,9 @@ Mientras los otros prototipos enseñan a **NO caer** en phishing, este enseña
 
 ## 🚀 Cómo ejecutar
 
-### Opción B: GitHub Pages
-1. Sube la carpeta a un repositorio público.
-2. Settings → Pages → Deploy from branch `main`.
-3. Accede a https://henryvcxd.github.io/incident-response-lab/
+### GitHub Pages
+1. Accede a https://henryvcxd.github.io/incident-response-lab/
+   *(Recomendado para dispositivos móviles y de escritorio. No requiere registro ni datos personales).*
 
 ## 🧪 Plan de pruebas experimentales
 
@@ -22,7 +21,7 @@ Mientras los otros prototipos enseñan a **NO caer** en phishing, este enseña
 
 **Protocolo por usuario:**
 1. Briefing de 2 minutos (NO explicar respuestas correctas).
-2. Ejecutar los 4 escenarios en orden.
+2. Ejecutar los 7 escenarios en orden.
 3. Exportar CSV al finalizar.
 4. Registrar en tabla maestra:
    - ID usuario (anonimizado: U1, U2, U3...)
