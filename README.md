@@ -11,13 +11,6 @@ Mientras los otros prototipos enseñan a **NO caer** en phishing, este enseña
 
 ## 🚀 Cómo ejecutar
 
-### Opción A: Local (recomendado para pruebas)
-1. Descarga la carpeta completa.
-2. Abre `index.html` con cualquier navegador moderno (Chrome, Firefox, Edge).
-3. **Importante:** usa un servidor local simple para evitar errores de CORS al cargar el JSON:
-   - Con Python: `python -m http.server 8000` y abre `http://localhost:8000`
-   - Con VS Code: extensión "Live Server" → clic derecho → "Open with Live Server"
-
 ### Opción B: GitHub Pages
 1. Sube la carpeta a un repositorio público.
 2. Settings → Pages → Deploy from branch `main`.
@@ -57,4 +50,5 @@ Mientras los otros prototipos enseñan a **NO caer** en phishing, este enseña
 - **ODS 16** (Paz, justicia e instituciones sólidas).
 
 ## 👨‍💻 Autor
+Henry Vargas Cruz
 Proyecto colaborativo Grupo 429 · UNAD 2026
