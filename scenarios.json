@@ -2,238 +2,238 @@
   "scenarios": [
     {
       "id": 1,
-      "title": "📱 Tu Nequi fue clonado",
-      "context": "Recibes un SMS: <em>'Nequi: Tu cuenta fue bloqueada por actividad sospechosa. Verifica tu identidad aquí: http://nequi-verifica.xyz'</em>. Además, alguien te llama diciendo ser del soporte.",
+      "title": " 'Alerta de seguridad' de Bancolombia con logo oficial",
+      "context": "Recibes un correo con el logo completo de Bancolombia, encabezado oficial y pie de página con dirección. Dice: <em>'Detectamos un intento de acceso desde Bucaramanga. Si no fuiste tú, valida tu identidad en 15 minutos o bloquearemos tu cuenta temporalmente.'</em> El remitente es <em>seguridad@bancolombia-com.co</em> y el botón dice 'Validar ahora'.",
       "nodes": [
         {
           "id": "n1",
-          "question": "¿Cuál es tu PRIMERA reacción?",
+          "question": "El correo parece muy profesional y tienes prisa. ¿Qué haces?",
           "options": [
-            { "text": "Hacer clic en el enlace para verificar rápido", "cost": 500000, "damage": 80, "optimal": false, "feedback": "❌ Error crítico: el enlace es phishing. Perdiste acceso total a tu Nequi." },
-            { "text": "Dar los datos al 'soporte' por teléfono", "cost": 800000, "damage": 100, "optimal": false, "feedback": "❌ Error grave: entregaste tu clave. El atacante vació tu cuenta." },
-            { "text": "NO hacer clic y abrir la app oficial de Nequi", "cost": 0, "damage": 0, "optimal": true, "feedback": "✅ Correcto: verificaste por canal oficial. Tu cuenta está segura." }
+            { "text": "Hacer clic en 'Validar ahora' porque el logo y formato son oficiales", "cost": 1200000, "damage": 95, "optimal": false, "feedback": "❌ Error: el dominio es 'bancolombia-com.co' (con guión), no 'bancolombia.com'. Los delincuentes compran dominios similares." },
+            { "text": "Revisar el remitente completo y notar que no es @bancolombia.com", "cost": 0, "damage": 0, "optimal": true, "feedback": "✅ Excelente: detectaste que el dominio real es falso. Bancolombia SIEMPRE usa @bancolombia.com" },
+            { "text": "Llamar al número que aparece en el pie del correo para verificar", "cost": 350000, "damage": 60, "optimal": false, "feedback": "❌ Peligro: el número en el correo falso te conecta con los delincuentes, no con el banco." }
           ]
         },
         {
           "id": "n2",
-          "question": "Confirmas que alguien intentó acceder. ¿Qué haces ahora?",
+          "question": "Confirmas que es phishing. ¿Cómo verificas si hay un problema real con tu cuenta?",
           "options": [
-            { "text": "Cambiar la clave desde la app oficial y activar MFA", "cost": 0, "damage": 0, "optimal": true, "feedback": "✅ Excelente: aseguraste la cuenta con doble factor." },
-            { "text": "Esperar a ver si pasa algo más", "cost": 200000, "damage": 40, "optimal": false, "feedback": "⚠️ Riesgo: el atacante puede reintentar. Debiste actuar ya." },
-            { "text": "Publicar en redes sociales para advertir", "cost": 50000, "damage": 20, "optimal": false, "feedback": "⚠️ Buena intención, pero no resuelve tu problema inmediato." }
+            { "text": "Ingresar a la app oficial de Bancolombia (sin usar enlaces del correo)", "cost": 0, "damage": 0, "optimal": true, "feedback": "✅ Perfecto: la única forma segura es navegar manualmente a la app o web oficial." },
+            { "text": "Responder al correo preguntando más detalles", "cost": 250000, "damage": 45, "optimal": false, "feedback": " Confirmaste que tu correo está activo. Recibirás más ataques dirigidos." },
+            { "text": "Buscar en Google 'Bancolombia fraude' y llamar al primer número que aparezca", "cost": 180000, "damage": 35, "optimal": false, "feedback": "⚠️ Riesgo: los delincuentes pagan por aparecer primeros en Google Ads. Usa solo números oficiales de tu tarjeta." }
           ]
         },
         {
           "id": "n3",
-          "question": "¿Cómo reportas formalmente el incidente?",
+          "question": "¿Qué haces con el correo sospechoso?",
           "options": [
-            { "text": "Denunciar en la línea 167 y en la app de Nequi", "cost": 0, "damage": 0, "optimal": true, "feedback": "✅ Protocolo oficial cumplido." },
-            { "text": "No reportar, ya solucioné con la clave", "cost": 30000, "damage": 10, "optimal": false, "feedback": "⚠️ El atacante sigue activo. Podría afectar a otros." },
-            { "text": "Enviar correo al atacante pidiendo que pare", "cost": 100000, "damage": 30, "optimal": false, "feedback": "❌ Inútil: los ciberdelincuentes no responden." }
+            { "text": "Reportarlo como phishing en Gmail/Outlook y eliminarlo", "cost": 0, "damage": 0, "optimal": true, "feedback": "✅ Correcto: ayudas a que el proveedor mejore sus filtros para todos." },
+            { "text": "Reenviarlo a un grupo de WhatsApp familiar para alertar", "cost": 120000, "damage": 25, "optimal": false, "feedback": "⚠️ Buena intención, pero al reenviar, algunos podrían hacer clic por curiosidad." },
+            { "text": "Guardarlo como evidencia antes de borrar", "cost": 80000, "damage": 15, "optimal": false, "feedback": "⚠️ Innecesario si ya lo reportaste. Podrías abrirlo por error después." }
           ]
         }
       ]
     },
     {
       "id": 2,
-      "title": "💳 SMS falso de Bancolombia",
-      "context": "Te llega un SMS: <em>'Bancolombia: Tu tarjeta fue usada en un comercio no reconocido. Bloquéala en: http://bancolombia-bloqueo.com'</em>. El mensaje parece oficial, con logo.",
+      "title": "📱 'Tu Nequi está en riesgo' - SMS con código real de 6 dígitos",
+      "context": "Recibes un SMS: <em>'Nequi: Alguien intentó acceder a tu cuenta. Tu código de verificación es: 847291. NO lo compartas con nadie.'</em> Inmediatamente después, te llama un número local diciendo: <em>'Soy del área de seguridad de Nequi. Vimos el intento de fraude. Para bloquearlo, necesito que me digas el código que te llegó.'</em>",
       "nodes": [
         {
           "id": "n1",
-          "question": "¿Qué haces con el SMS?",
+          "question": "El SMS es REAL (llegó de Nequi) y la llamada suena urgente. ¿Qué haces?",
           "options": [
-            { "text": "Hacer clic inmediatamente para bloquear", "cost": 400000, "damage": 70, "optimal": false, "feedback": "❌ El dominio es falso. Instalaste malware en tu celular." },
-            { "text": "Verificar la URL: bancolombia.com.es (dominio sospechoso)", "cost": 0, "damage": 0, "optimal": true, "feedback": "✅ Detectaste el dominio falso. Excelente ojo crítico." },
-            { "text": "Reenviar el SMS a un amigo para que lo vea", "cost": 50000, "damage": 15, "optimal": false, "feedback": "⚠️ Propagaste el phishing. No es la acción correcta." }
+            { "text": "Dar el código al 'asesor' porque él ya sabe que llegó y suena legítimo", "cost": 1800000, "damage": 100, "optimal": false, "feedback": "❌ Error grave: el código ES REAL pero el asesor es FALSO. Con ese código tomaron control de tu Nequi." },
+            { "text": "Colgar inmediatamente. Nequi NUNCA pide códigos por teléfono", "cost": 0, "damage": 0, "optimal": true, "feedback": "✅ Perfecto: aunque el SMS es real, los delincuentes usan ingeniería social para que tú se los des." },
+            { "text": "Pedirle que espere mientras verifico en la app de Nequi", "cost": 400000, "damage": 70, "optimal": false, "feedback": "⚠️ Demasiado lento. Mientras 'verificas', ellos ya están usando tu código. Mejor cuelga YA." }
           ]
         },
         {
           "id": "n2",
-          "question": "Confirmas que es phishing. ¿Siguiente paso?",
+          "question": "Después de colgar, revisas Nequi y ves que hay una sesión activa desde otro dispositivo. ¿Qué haces?",
           "options": [
-            { "text": "Llamar al banco al número oficial de la tarjeta", "cost": 0, "damage": 0, "optimal": true, "feedback": "✅ Canal oficial. El banco confirma que no hay cargo real." },
-            { "text": "Responder al SMS preguntando quiénes son", "cost": 80000, "damage": 25, "optimal": false, "feedback": "❌ Confirmaste que tu número está activo. Te atacarán más." },
-            { "text": "Ignorar y borrar el mensaje", "cost": 20000, "damage": 10, "optimal": false, "feedback": "⚠️ Mejor que clic, pero no validaste con el banco." }
+            { "text": "Ir a Configuración → Dispositivos → Cerrar sesión desconocida y cambiar PIN", "cost": 0, "damage": 0, "optimal": true, "feedback": "✅ Excelente: expulsaste al atacante y aseguraste la cuenta." },
+            { "text": "Desinstalar y reinstalar la app de Nequi", "cost": 200000, "damage": 40, "optimal": false, "feedback": "❌ Inútil: el atacante sigue teniendo acceso desde su dispositivo. Debes cerrar sesión DESDE la app." },
+            { "text": "Llamar a la línea de Nequi para que ellos lo cierren", "cost": 150000, "damage": 30, "optimal": false, "feedback": "⚠️ Lento y riesgoso. Puedes hacerlo tú mismo en 10 segundos desde la app." }
           ]
         },
         {
           "id": "n3",
-          "question": "¿Cómo contribuyes a la comunidad?",
+          "question": "¿Cómo evitas que esto vuelva a pasar?",
           "options": [
-            { "text": "Reportar el número a la SIC y al banco", "cost": 0, "damage": 0, "optimal": true, "feedback": "✅ Ayudas a bloquear al atacante para todos." },
-            { "text": "No hacer nada, ya pasó", "cost": 40000, "damage": 15, "optimal": false, "feedback": "⚠️ El atacante seguirá engañando a otros." },
-            { "text": "Publicar el enlace falso en Twitter", "cost": 60000, "damage": 20, "optimal": false, "feedback": "❌ Riesgo: alguien más podría hacer clic por curiosidad." }
+            { "text": "Activar la autenticación biométrica (huella/FaceID) en Nequi", "cost": 0, "damage": 0, "optimal": true, "feedback": "✅ Perfecto: aunque tengan tu código, no podrán entrar sin tu huella." },
+            { "text": "Nunca más abrir SMS de Nequi", "cost": 100000, "damage": 20, "optimal": false, "feedback": "❌ Los SMS oficiales son necesarios. El problema es DAR el código, no recibirlo." },
+            { "text": "Bloquear todos los números desconocidos", "cost": 80000, "damage": 15, "optimal": false, "feedback": "⚠️ Útil pero insuficiente. Los delincuentes usan números cambiantes." }
           ]
         }
       ]
     },
     {
       "id": 3,
-      "title": "📞 Llamada del 'gerente del banco'",
-      "context": "Te llama un número local: <em>'Soy Carlos, gerente de su banco. Detectamos fraude en su cuenta. Necesito que me confirme su clave y el código que le acaba de llegar por SMS para bloquear al atacante.'</em>",
+      "title": " 'Tu compra de $2.500.000 fue aprobada' - PSE falso ultra realista",
+      "context": "Recibes un correo: <em>'PSE - Pago exitoso'</em> con un comprobante PDF adjunto. Dice: <em>'Se debitaron $2.500.000 de tu cuenta Bancolombia ****4829 a favor de 'ElectroHogar'. Si no reconoces esta compra, solicita devolución en 10 minutos.'</em> El comprobante tiene logo de PSE, Bancolombia, fecha, hora y un código de transacción.",
       "nodes": [
         {
           "id": "n1",
-          "question": "¿Qué haces durante la llamada?",
+          "question": "El comprobante se ve MUY profesional y el monto es alto. ¿Qué haces?",
           "options": [
-            { "text": "Dar la clave y el código SMS para 'proteger' la cuenta", "cost": 900000, "damage": 100, "optimal": false, "feedback": "❌ El banco NUNCA pide claves por teléfono. Perdiste todo." },
-            { "text": "Colgar inmediatamente y verificar con el banco", "cost": 0, "damage": 0, "optimal": true, "feedback": "✅ Acción perfecta. El banco confirma que no había fraude." },
-            { "text": "Pedirle el número de empleado para 'verificar'", "cost": 150000, "damage": 35, "optimal": false, "feedback": "⚠️ El atacante te dio datos falsos y te convenció." }
+            { "text": "Abrir el PDF para ver los detalles de la transacción", "cost": 900000, "damage": 85, "optimal": false, "feedback": "❌ Peligro: el PDF puede tener malware o enlaces falsos. NUNCA abras adjuntos de correos sospechosos." },
+            { "text": "NO abrir el adjunto. Ingresar directamente a la app de Bancolombia a verificar", "cost": 0, "damage": 0, "optimal": true, "feedback": "✅ Excelente: verificas en la fuente oficial sin riesgo de malware." },
+            { "text": "Hacer clic en el enlace 'Solicitar devolución' del correo", "cost": 1500000, "damage": 100, "optimal": false, "feedback": "❌ Error crítico: el enlace te lleva a una página falsa que roba tus credenciales." }
           ]
         },
         {
           "id": "n2",
-          "question": "Después de colgar, ¿qué haces?",
+          "question": "Entras a Bancolombia y NO aparece ningún débito de $2.500.000. Confirmas que es fraude. ¿Siguiente paso?",
           "options": [
-            { "text": "Activar MFA biométrico en la app del banco", "cost": 0, "damage": 0, "optimal": true, "feedback": "✅ Blindaste tu cuenta con huella/FaceID." },
-            { "text": "Cambiar la clave de todas mis redes sociales", "cost": 30000, "damage": 10, "optimal": false, "feedback": "⚠️ Buena práctica general, pero no era lo prioritario aquí." },
-            { "text": "No hacer nada, ya colgué", "cost": 50000, "damage": 15, "optimal": false, "feedback": "⚠️ El atacante puede reintentar con otra táctica." }
+            { "text": "Reportar el correo como phishing y eliminarlo", "cost": 0, "damage": 0, "optimal": true, "feedback": "✅ Correcto: no caíste en la trampa de la urgencia." },
+            { "text": "Responder al correo diciendo 'esto es fraude'", "cost": 180000, "damage": 35, "optimal": false, "feedback": "❌ Confirmaste que tu correo existe. Te enviarán ataques más dirigidos." },
+            { "text": "Denunciar en la Fiscalía por fraude informático", "cost": 50000, "damage": 10, "optimal": false, "feedback": "⚠️ Puedes hacerlo, pero primero reporta el phishing a tu banco y correo." }
           ]
         },
         {
           "id": "n3",
-          "question": "¿Cómo reportas la llamada fraudulenta?",
+          "question": "¿Qué táctica usaron los delincuentes?",
           "options": [
-            { "text": "Reportar a la línea 167 y al banco", "cost": 0, "damage": 0, "optimal": true, "feedback": "✅ Protocolo correcto." },
-            { "text": "Devolver la llamada al número", "cost": 100000, "damage": 30, "optimal": false, "feedback": "❌ Confirmaste tu número. Te atacarán más." },
-            { "text": "Bloquear el número y olvidar", "cost": 40000, "damage": 10, "optimal": false, "feedback": "⚠️ El atacante seguirá llamando a otros." }
+            { "text": "Urgencia + Autoridad + Documento oficial falso", "cost": 0, "damage": 0, "optimal": true, "feedback": "✅ Exacto: crearon pánico con un monto alto y tiempo límite para que actuaras sin pensar." },
+            { "text": "Solo un error técnico de PSE", "cost": 120000, "damage": 25, "optimal": false, "feedback": "❌ No es error técnico. Es ingeniería social sofisticada." },
+            { "text": "Alguien realmente compró con mis datos", "cost": 200000, "damage": 40, "optimal": false, "feedback": "⚠️ Podría ser, pero primero verificas en tu banco ANTES de creer el correo." }
           ]
         }
       ]
     },
     {
       "id": 4,
-      "title": "📧 Correo falso de PSE / DIAN",
-      "context": "Recibes un correo con logo oficial: <em>'PSE: Su transacción fue rechazada. Descargue el comprobante adjunto (comprobante_PSE.exe) para reclamar su dinero.'</em> El remitente es <em>soporte@pse-comprobante.co</em>.",
+      "title": "👔 'Tu jefe' te pide comprar tarjetas de regalo por WhatsApp",
+      "context": "Te llega un WhatsApp de un número que dice ser tu jefe: <em>'Hola, soy Carlos (tu gerente). Estoy en una reunión y necesito que me hagas un favor urgente: compra 3 tarjetas de regalo de Amazon de $200.000 cada una y envíame los códigos. Es para un regalo corporativo. Te reembolso mañana.'</em> El número es diferente al habitual pero tiene su foto de perfil.",
       "nodes": [
         {
           "id": "n1",
-          "question": "¿Qué haces con el correo?",
+          "question": "Tu jefe real te trata bien y confías en él. ¿Qué haces?",
           "options": [
-            { "text": "Descargar el .exe para ver el comprobante", "cost": 1200000, "damage": 100, "optimal": false, "feedback": "❌ Instalaste ransomware. Tus archivos fueron cifrados." },
-            { "text": "Verificar remitente y NO abrir adjunto", "cost": 0, "damage": 0, "optimal": true, "feedback": "✅ Detectaste dominio falso y extensión .exe sospechosa." },
-            { "text": "Responder pidiendo más información", "cost": 200000, "damage": 40, "optimal": false, "feedback": "❌ Confirmaste tu correo activo. Recibirás más ataques." }
+            { "text": "Comprar las tarjetas porque es un favor rápido y él te reembolsará", "cost": 600000, "damage": 100, "optimal": false, "feedback": "❌ Error: es SUPPLANTACIÓN. Tu jefe real NO te pediría esto por WhatsApp. Las tarjetas de regalo son IRRASTREABLES." },
+            { "text": "Escribirle al número habitual de tu jefe para confirmar", "cost": 0, "damage": 0, "optimal": true, "feedback": "✅ Perfecto: verificas por un canal conocido antes de actuar." },
+            { "text": "Llamar al número que te escribió para confirmar que es él", "cost": 250000, "damage": 50, "optimal": false, "feedback": "❌ Peligro: si es un delincuente, te convencerá con excusas. Mejor verifica por otro canal." }
           ]
         },
         {
           "id": "n2",
-          "question": "Confirmas que es phishing. ¿Siguiente paso?",
+          "question": "Confirmas que tu jefe real NO envió ese mensaje. ¿Qué haces?",
           "options": [
-            { "text": "Reportar como phishing en el correo y eliminar", "cost": 0, "damage": 0, "optimal": true, "feedback": "✅ El proveedor bloqueará el remitente para todos." },
-            { "text": "Reenviar a compañeros para que lo vean", "cost": 100000, "damage": 25, "optimal": false, "feedback": "❌ Propagaste el ataque dentro de tu red." },
-            { "text": "Guardar el adjunto 'por si acaso'", "cost": 300000, "damage": 60, "optimal": false, "feedback": "❌ Riesgo altísimo: podrías ejecutarlo por error." }
+            { "text": "Bloquear el número y reportarlo como suplantación", "cost": 0, "damage": 0, "optimal": true, "feedback": "✅ Correcto: evitas que sigan intentando contigo o con otros empleados." },
+            { "text": "Responderle 'ya me di cuenta que eres falso'", "cost": 150000, "damage": 30, "optimal": false, "feedback": "❌ Innecesario y riesgoso. Solo confirmas que caíste en la trampa inicial." },
+            { "text": "Publicar en redes que están suplantando a tu jefe", "cost": 100000, "damage": 20, "optimal": false, "feedback": "⚠️ Puede alertar a otros, pero primero bloquéalos a ellos." }
           ]
         },
         {
           "id": "n3",
-          "question": "¿Cómo proteges tu equipo a futuro?",
+          "question": "¿Por qué los delincuentes usan tarjetas de regalo?",
           "options": [
-            { "text": "Activar verificación en 2 pasos en el correo", "cost": 0, "damage": 0, "optimal": true, "feedback": "✅ MFA activo. Tu correo está blindado." },
-            { "text": "Instalar un antivirus gratuito cualquiera", "cost": 40000, "damage": 10, "optimal": false, "feedback": "⚠️ Útil, pero no reemplaza el MFA." },
-            { "text": "No hacer nada, ya borré el correo", "cost": 60000, "damage": 15, "optimal": false, "feedback": "⚠️ Tu cuenta sigue vulnerable." }
+            { "text": "Son imposibles de rastrear y se pueden usar inmediatamente", "cost": 0, "damage": 0, "optimal": true, "feedback": "✅ Exacto: por eso NINGUNA empresa legítima te pedirá pagar con tarjetas de regalo." },
+            { "text": "Porque son más baratas", "cost": 80000, "damage": 15, "optimal": false, "feedback": "❌ No es por el precio, es por el anonimato." },
+            { "text": "Para evitar impuestos", "cost": 120000, "damage": 25, "optimal": false, "feedback": "️ Puede ser, pero la razón principal es que son IRRASTREABLES." }
           ]
         }
       ]
     },
     {
       "id": 5,
-      "title": "💬 WhatsApp 'Falso Soporte' (El código de 6 dígitos)",
-      "context": "Te llega un WhatsApp de un número desconocido con foto de perfil de Nequi: <em>'Hola, somos soporte de Nequi. Detectamos un intento de acceso desde otro dispositivo. Por seguridad, reenvíanos el código de 6 dígitos que te acaba de llegar por SMS para bloquearlo inmediatamente.'</em>",
+      "title": "🎁 'Ganaste un iPhone 15' - Sorteo falso de Éxito con web ultra realista",
+      "context": "Recibes un SMS: <em>'Éxito: ¡Felicidades! Fuiste seleccionado para el sorteo del mes. Ganaste un iPhone 15 Pro. Reclámalo en: exito-premios.co/reclamar'</em> Al entrar, ves una web IDÉNTICA a la de Éxito (mismo logo, colores, diseño). Te piden: nombre, cédula, dirección y $15.000 para 'gastos de envío'.",
       "nodes": [
         {
           "id": "n1",
-          "question": "¿Qué haces con el mensaje de WhatsApp?",
+          "question": "La web se ve IDÉNTICA a Éxito y el premio es tentador. ¿Qué haces?",
           "options": [
-            { "text": "Reenviar el código de 6 dígitos para 'bloquear' el acceso", "cost": 1500000, "damage": 100, "optimal": false, "feedback": "❌ Error fatal: el código de 6 dígitos es para INICIAR sesión, no para bloquear. Acaban de robar tu cuenta." },
-            { "text": "Ignorar el mensaje y bloquear el número", "cost": 0, "damage": 0, "optimal": true, "feedback": "✅ Correcto: Nequi NUNCA pide códigos por WhatsApp. Bloqueaste al atacante." },
-            { "text": "Responder preguntando por su número de empleado", "cost": 200000, "damage": 40, "optimal": false, "feedback": "⚠️ Riesgo: al responder, confirmas que tu número está activo y te atacarán más." }
+            { "text": "Llenar el formulario porque la web es idéntica y el premio es real", "cost": 450000, "damage": 75, "optimal": false, "feedback": "❌ Error: el dominio es 'exito-premios.co', NO 'exito.com'. Los delincuentes clonan webs completas." },
+            { "text": "Revisar la URL: 'exito-premios.co' no es el dominio oficial de Éxito", "cost": 0, "damage": 0, "optimal": true, "feedback": "✅ Excelente: Éxito SIEMPRE usa 'exito.com'. Los guiones y dominios extraños son falsos." },
+            { "text": "Pagar los $15.000 porque es poco dinero y el premio vale millones", "cost": 850000, "damage": 95, "optimal": false, "feedback": "❌ Trampa clásica: te roban los $15.000 Y tus datos personales para venderlos." }
           ]
         },
         {
           "id": "n2",
-          "question": "Para asegurar tu cuenta, ¿qué haces en la app oficial?",
+          "question": "Identificas que es fraude. ¿Por qué NUNCA debes pagar para 'reclamar' un premio?",
           "options": [
-            { "text": "Ir a 'Dispositivos asociados' y cerrar sesiones desconocidas", "cost": 0, "damage": 0, "optimal": true, "feedback": "✅ Excelente: expulsaste al atacante de tu cuenta." },
-            { "text": "Cambiar la clave de mi correo electrónico", "cost": 50000, "damage": 10, "optimal": false, "feedback": "⚠️ Buena práctica, pero no resuelve el acceso a tu billetera digital." },
-            { "text": "Desinstalar y reinstalar la app de Nequi", "cost": 30000, "damage": 5, "optimal": false, "feedback": "⚠️ Inútil: el atacante sigue teniendo acceso si no cierras la sesión desde la app." }
+            { "text": "Porque los premios reales descuentan los gastos del premio o los cubre la empresa", "cost": 0, "damage": 0, "optimal": true, "feedback": "✅ Correcto: si te piden pagar, es ESTAFA. Punto." },
+            { "text": "Porque es ilegal cobrar por premios", "cost": 100000, "damage": 20, "optimal": false, "feedback": "⚠️ No exactamente. Lo ilegal es el engaño, pero el problema real es que es una trampa." },
+            { "text": "Porque Éxito no hace sorteos", "cost": 150000, "damage": 30, "optimal": false, "feedback": " Éxito SÍ hace sorteos. El problema es que ESTE no es de Éxito." }
           ]
         },
         {
           "id": "n3",
-          "question": "¿Cómo reportas este intento de fraude?",
+          "question": "¿Cómo verificas si un sorteo es real?",
           "options": [
-            { "text": "Usar la opción 'Reportar' dentro de WhatsApp y avisar a la línea 167", "cost": 0, "damage": 0, "optimal": true, "feedback": "✅ Protocolo perfecto: WhatsApp revisará el número y la policía recibe la alerta." },
-            { "text": "Reenviar el mensaje a mis grupos de familia para advertir", "cost": 80000, "damage": 20, "optimal": false, "feedback": "⚠️ Buena intención, pero al reenviarlo, WhatsApp podría marcar TU número como spam." },
-            { "text": "No hacer nada, ya lo bloqueé", "cost": 40000, "damage": 10, "optimal": false, "feedback": "⚠️ El atacante seguirá estafando a personas vulnerables." }
+            { "text": "Entrar DIRECTAMENTE a la web oficial (sin usar enlaces) o ir a la tienda", "cost": 0, "damage": 0, "optimal": true, "feedback": "✅ Perfecto: la única forma segura es navegar manualmente o preguntar en tienda física." },
+            { "text": "Buscar en Google 'Éxito sorteo iPhone' y ver los primeros resultados", "cost": 120000, "damage": 25, "optimal": false, "feedback": "⚠️ Riesgo: los delincuentes pagan Google Ads para aparecer primeros." },
+            { "text": "Preguntar en un grupo de WhatsApp si alguien más ganó", "cost": 80000, "damage": 15, "optimal": false, "feedback": "⚠️ Tus contactos pueden no saber y darte información errónea." }
           ]
         }
       ]
     },
     {
       "id": 6,
-      "title": "📱 QR Malicioso en un comercio (Quishing)",
-      "context": "Estás en una tienda pequeña. El dependiente te dice: <em>'Paga escaneando este QR'</em>. Al apuntar tu cámara, te abre una web que dice: <em>'Autoriza tu pago de $15.000 ingresando tu cédula y clave de Daviplata'</em>. Notas que la calcomanía del QR parece pegada sobre otra.",
+      "title": "🏪 QR falso en tienda de barrio - 'Paga escaneando aquí'",
+      "context": "Estás en una tienda de barrio conocida. El dependiente (que siempre te atiende) te dice: <em>'Ahora puede pagar con QR, escanee aquí'</em> y te señala una calcomanía pegada en el mostrador. Al escanear, tu celular abre: <em>'DaviPlata - Autorizar pago'</em> y te pide ingresar TU clave de 4 dígitos para 'confirmar'.",
       "nodes": [
         {
           "id": "n1",
-          "question": "¿Qué haces al ver la pantalla que pide tu clave?",
+          "question": "Confías en la tienda y el dependiente de siempre. ¿Qué haces?",
           "options": [
-            { "text": "Ingresar mis datos rápido para no hacer esperar al dependiente", "cost": 800000, "damage": 90, "optimal": false, "feedback": "❌ Error grave: los pagos con QR NUNCA piden clave. Es un QR falso pegado sobre el original." },
-            { "text": "Detener el escaneo y verificar la calcomanía del QR", "cost": 0, "damage": 0, "optimal": true, "feedback": "✅ Excelente ojo: detectaste que el QR falso estaba pegado sobre el original del comercio." },
-            { "text": "Pagar con efectivo para salir del paso", "cost": 0, "damage": 0, "optimal": true, "feedback": "✅ Solución segura ante la duda. Evitaste el fraude digital." }
+            { "text": "Ingresar mi clave porque es la tienda de siempre y el QR parece oficial", "cost": 1100000, "damage": 100, "optimal": false, "feedback": "❌ Error grave: los pagos con QR NUNCA piden tu clave. El QR falso está PEGADO sobre el original." },
+            { "text": "Detenerme: los pagos QR NO piden clave. Verificar la calcomanía", "cost": 0, "damage": 0, "optimal": true, "feedback": "✅ Excelente: detectaste la anomalía. El QR real solo muestra el monto, no pide clave." },
+            { "text": "Preguntarle al dependiente si él ya usó ese QR", "cost": 350000, "damage": 65, "optimal": false, "feedback": "❌ Peligro: el dependiente puede ser CÓMPLICE o también fue engañado. No confíes solo en su palabra." }
           ]
         },
         {
           "id": "n2",
-          "question": "Confirmas que es un QR falso. ¿Cómo procedes?",
+          "question": "Confirmas que la calcomanía del QR está pegada SOBRE otra. ¿Qué haces?",
           "options": [
-            { "text": "Avisar al dueño del local y quitar la calcomanía falsa", "cost": 0, "damage": 0, "optimal": true, "feedback": "✅ Acción ciudadana: evitas que la siguiente persona caiga en la trampa." },
-            { "text": "Irme del local sin decir nada", "cost": 50000, "damage": 15, "optimal": false, "feedback": "⚠️ Te salvaste, pero el delincuente seguirá robando en ese local." },
-            { "text": "Tomar una foto y subirla a redes sociales exponiendo al local", "cost": 100000, "damage": 25, "optimal": false, "feedback": "❌ El local es víctima también. Debiste alertar al dueño primero." }
+            { "text": "Avisar al dueño de la tienda (si no es el mismo dependiente) y quitar el QR falso", "cost": 0, "damage": 0, "optimal": true, "feedback": "✅ Correcto: proteges al comercio y a otros clientes. El dueño debe denunciar." },
+            { "text": "Pagar en efectivo y salir rápido sin decir nada", "cost": 80000, "damage": 15, "optimal": false, "feedback": "⚠️ Te salvaste, pero el delincuente seguirá robando en ese lugar." },
+            { "text": "Tomar foto del QR y subirla a redes advirtiendo", "cost": 150000, "damage": 30, "optimal": false, "feedback": "❌ Riesgo: podrías exponer al comercio sin pruebas. Mejor avisa al dueño primero." }
           ]
         },
         {
           "id": "n3",
-          "question": "¿Cómo reportas este fraude físico?",
+          "question": "¿Cómo pagarías de forma segura en esa tienda?",
           "options": [
-            { "text": "Reportar a la Policía de Infancia y Adolescencia o línea 167", "cost": 0, "damage": 0, "optimal": true, "feedback": "✅ Correcto, las autoridades pueden rastrear la cuenta bancaria del QR falso." },
-            { "text": "Llamar al banco a poner una queja", "cost": 40000, "damage": 10, "optimal": false, "feedback": "⚠️ El banco no tiene jurisdicción sobre el local físico." },
-            { "text": "No reportar, no me afectó a mí", "cost": 60000, "damage": 20, "optimal": false, "feedback": "⚠️ Falta de responsabilidad social. Alguien más caerá." }
+            { "text": "Efectivo o transferencia manual (sin QR) hasta que el dueño verifique", "cost": 0, "damage": 0, "optimal": true, "feedback": "✅ Perfecto: evitas el QR hasta que el comercio lo verifique con su banco." },
+            { "text": "Usar el QR de mi propio DaviPlata para que me cobren", "cost": 100000, "damage": 20, "optimal": false, "feedback": "⚠️ Mejor, pero aún riesgoso si el comercio no está verificado." },
+            { "text": "No volver a esa tienda nunca más", "cost": 50000, "damage": 10, "optimal": false, "feedback": "⚠️ Extremo. El comercio puede ser víctima también. Mejor ayúdalos a verificar." }
           ]
         }
       ]
     },
     {
       "id": 7,
-      "title": "🎁 Falso Bono / Premio por 'Cumpleaños' (Smishing)",
-      "context": "Recibes un SMS: <em>'¡Felicidades Jair! Has sido seleccionado para un bono de $200.000 en Éxito por tu cumpleaños. Reclámalo aquí antes de que expire en 10 minutos: http://bono-exito-regalo.xyz'</em>. El mensaje tiene un emoji de regalo 🎁.",
+      "title": "📞 'Soporte técnico de Microsoft' - Llamada con ID de llamada real del banco",
+      "context": "Suena el teléfono. La pantalla muestra: <em>'Bancolombia - Línea oficial'</em> con el número exacto que aparece en tu tarjeta. Contestas y una voz automatizada dice: <em>'Detectamos actividad inusual. Presione 1 para hablar con un asesor.'</em> Al presionar, una persona con acento local te dice: <em>'Soy del departamento de seguridad. Necesitamos que instale TeamViewer para revisar su computador.'</em>",
       "nodes": [
         {
           "id": "n1",
-          "question": "¿Qué haces al leer el SMS con la 'urgencia' de 10 minutos?",
+          "question": "El número en pantalla es REAL (lo verificaste con tu tarjeta). ¿Qué haces?",
           "options": [
-            { "text": "Hacer clic rápido antes de que se acabe el tiempo", "cost": 400000, "damage": 70, "optimal": false, "feedback": "❌ Caíste en la trampa de la urgencia. El sitio instaló malware o robó tus datos." },
-            { "text": "Analizar el enlace: 'bono-exito-regalo.xyz' no es el dominio oficial", "cost": 0, "damage": 0, "optimal": true, "feedback": "✅ Excelente: los dominios oficiales son '.com.co' o '.com'. El '.xyz' es sospechoso." },
-            { "text": "Responder al SMS preguntando cómo reclamar el premio", "cost": 150000, "damage": 35, "optimal": false, "feedback": "❌ Confirmaste tu número. Te enviarán más ataques." }
+            { "text": "Confiar porque el número es correcto y seguir las instrucciones", "cost": 1600000, "damage": 100, "optimal": false, "feedback": "❌ Error: los delincuentes usan 'spoofing' para CLONAR números oficiales. El número real NO garantiza que sea legítimo." },
+            { "text": "Colgar y llamar YO al número oficial de mi tarjeta", "cost": 0, "damage": 0, "optimal": true, "feedback": "✅ Perfecto: tú inicias la llamada al número confiable, no al que te llamó." },
+            { "text": "Pedirle que me envíe un correo oficial para verificar", "cost": 400000, "damage": 70, "optimal": false, "feedback": "❌ Peligro: pueden enviar un correo falso muy convincente. Mejor cuelga y llama tú." }
           ]
         },
         {
           "id": "n2",
-          "question": "Identificas que es fraude. ¿Qué haces con el mensaje?",
+          "question": "¿Por qué NUNCA debes instalar TeamViewer/AnyDesk por solicitud telefónica?",
           "options": [
-            { "text": "Reportar el número como spam/phishing en tu app de mensajes", "cost": 0, "damage": 0, "optimal": true, "feedback": "✅ Correcto: ayudas a que tu celular bloquee futuros mensajes de este número." },
-            { "text": "Guardar el mensaje 'por si acaso' es real", "cost": 80000, "damage": 20, "optimal": false, "feedback": "❌ Nunca guardes mensajes de phishing. Podrías hacer clic por error después." },
-            { "text": "Borrar el mensaje inmediatamente", "cost": 20000, "damage": 5, "optimal": false, "feedback": "⚠️ Bien que lo borraste, pero no reportaste el número como spam." }
+            { "text": "Porque dan control TOTAL de tu computador y pueden ver/installar lo que quieran", "cost": 0, "damage": 0, "optimal": true, "feedback": "✅ Exacto: es como darle las llaves de tu casa a un extraño." },
+            { "text": "Porque son programas ilegales", "cost": 100000, "damage": 20, "optimal": false, "feedback": "❌ Son programas LEGALES, pero los delincuentes los usan mal." },
+            { "text": "Porque Microsoft no da soporte a bancos", "cost": 150000, "damage": 30, "optimal": false, "feedback": "⚠️ Cierto, pero el problema real es el CONTROL REMOTO." }
           ]
         },
         {
           "id": "n3",
-          "question": "¿Cómo verificas si un bono es real en el futuro?",
+          "question": "Después de colgar, ¿qué deberías hacer?",
           "options": [
-            { "text": "Entrar directamente a la app oficial de Éxito/Banco (sin usar enlaces)", "cost": 0, "damage": 0, "optimal": true, "feedback": "✅ La única forma segura: navegar manualmente en la app oficial." },
-            { "text": "Buscar el número en internet y llamar", "cost": 40000, "damage": 10, "optimal": false, "feedback": "⚠️ Riesgo: podrías llamar a un número falso que aparece primero en Google." },
-            { "text": "Preguntar en un grupo de WhatsApp si es real", "cost": 60000, "damage": 15, "optimal": false, "feedback": "⚠️ Tus contactos pueden no saber y darte información errónea." }
+            { "text": "Reportar el incidente a Bancolombia (llamando tú) y a la línea 167", "cost": 0, "damage": 0, "optimal": true, "feedback": "✅ Correcto: el banco puede alertar a otros clientes y las autoridades investigan." },
+            { "text": "Cambiar todas mis contraseñas inmediatamente", "cost": 50000, "damage": 10, "optimal": false, "feedback": "⚠️ Buena práctica general, pero no era necesario si NO instalaste nada." },
+            { "text": "No hacer nada, ya colgué y no instalé nada", "cost": 80000, "damage": 15, "optimal": false, "feedback": "⚠️ Te salvaste, pero reportar ayuda a que otros no caigan." }
           ]
         }
       ]
