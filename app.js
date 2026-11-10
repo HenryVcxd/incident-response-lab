@@ -4,8 +4,8 @@
 // IEEE 7000-2021 · Cero PII · Google Sheets Auto-Send
 // ============================================
 
-// ⚠️ IMPORTANTE: PEGA AQUÍ LA URL DE TU GOOGLE APPS SCRIPT ⚠️
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/TU-CODIGO-AQUI/exec';
+// ⚠️ IMPORTANTE: AQUÍ LA URL DE GOOGLE APPS SCRIPT ⚠️
+const GOOGLE_SCRIPT_URL = https://script.google.com/macros/s/AKfycbzWiiTNnV0iXFQiFeoQv8rs5AmdEzSqdnY0V5HvfSNi9AjGEAZrNyp9eazHEIe_VGd47A/exec;
 
 let scenarios = [];
 let currentScenarioIdx = 0;
