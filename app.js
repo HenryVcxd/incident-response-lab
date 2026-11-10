@@ -1,11 +1,7 @@
 // ============================================
-// IncidentResponse Lab - app.js (Versión Final)
+// IncidentResponse Lab - app.js
 // Simulador de Respuesta ante Phishing
-// IEEE 7000-2021 · Cero PII · Google Sheets Auto-Send
 // ============================================
-
-// ⚠️ IMPORTANTE: AQUÍ LA URL DE GOOGLE APPS SCRIPT ⚠️
-const GOOGLE_SCRIPT_URL = https://script.google.com/macros/s/AKfycbzWiiTNnV0iXFQiFeoQv8rs5AmdEzSqdnY0V5HvfSNi9AjGEAZrNyp9eazHEIe_VGd47A/exec;
 
 let scenarios = [];
 let currentScenarioIdx = 0;
@@ -140,9 +136,7 @@ function showFeedback(option, time) {
   document.getElementById('fb-cost').textContent = option.cost.toLocaleString('es-CO');
   document.getElementById('fb-damage').textContent = option.damage;
 
-  // Lógica para cambiar el texto del botón según la fase
   const btnNext = document.getElementById('btn-next');
-  const scenario = scenarios[currentScenarioIdx];
   
   if (currentNodeIdx === 0) {
     btnNext.textContent = '➡️ Fase 2: Mitigación del daño';
@@ -178,9 +172,6 @@ function showResults() {
   const kpis = calculateKPIs();
   renderKPIs(kpis);
   renderChart();
-  
-  // Agregar botón para enviar datos automáticamente a Google Sheets
-  addAutoSendButton();
 }
 
 function calculateKPIs() {
@@ -262,7 +253,7 @@ function renderChart() {
   });
 }
 
-// ---------- EXPORTAR CSV (Respaldo manual) ----------
+// ---------- EXPORTAR CSV ----------
 function exportCSV() {
   const headers = ['SesionID','Escenario','Nodo','TiempoDecision_s','Costo_COP','Dano_%','Optimal','Feedback'];
   const rows = sessionData.decisions.map(d => [
@@ -284,70 +275,4 @@ function exportCSV() {
   a.download = `IncidentResponseLab_${sessionData.sessionId}.csv`;
   a.click();
   URL.revokeObjectURL(url);
-}
-
-// ---------- ENVÍO AUTOMÁTICO A GOOGLE SHEETS ----------
-function addAutoSendButton() {
-  // Verificar si ya se envió para no duplicar
-  if (localStorage.getItem('sent_' + sessionData.sessionId) === 'true') {
-    return; 
-  }
-
-  const resultsSection = document.getElementById('screen-results');
-  const sendDiv = document.createElement('div');
-  sendDiv.className = 'bg-slate-800 border border-emerald-700 rounded-xl p-6 mt-4 fade-in';
-  sendDiv.innerHTML = `
-    <h3 class="font-bold mb-3 text-emerald-400">📤 Contribuir al estudio (opcional)</h3>
-    <p class="text-sm text-slate-300 mb-4">
-      Tus datos son completamente anónimos (solo un ID aleatorio). 
-      Al enviarlos, ayudas a mejorar la investigación sobre ciberseguridad en Colombia.
-    </p>
-    <button id="btn-send-data" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-6 rounded-lg transition">
-      ✅ Enviar datos anónimos al laboratorio
-    </button>
-    <div id="send-status" class="mt-3 text-sm hidden"></div>
-  `;
-  resultsSection.appendChild(sendDiv);
-  
-  document.getElementById('btn-send-data').addEventListener('click', sendDataToGoogleSheets);
-}
-
-async function sendDataToGoogleSheets() {
-  const btn = document.getElementById('btn-send-data');
-  const status = document.getElementById('send-status');
-  
-  btn.disabled = true;
-  btn.textContent = '⏳ Enviando...';
-  status.classList.remove('hidden');
-  status.textContent = 'Conectando con el servidor...';
-  
-  try {
-    await fetch(GOOGLE_SCRIPT_URL, {
-      method: 'POST',
-      mode: 'no-cors', // Importante para evitar errores de CORS
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        sessionId: sessionData.sessionId,
-        decisions: sessionData.decisions
-      })
-    });
-    
-    btn.textContent = '✅ Datos enviados correctamente';
-    btn.classList.remove('bg-emerald-600');
-    btn.classList.add('bg-slate-600');
-    status.textContent = '¡Gracias por contribuir! Tus datos ya están en la hoja de cálculo.';
-    status.classList.add('text-emerald-400');
-    
-    localStorage.setItem('sent_' + sessionData.sessionId, 'true');
-    
-  } catch (error) {
-    btn.textContent = '❌ Error al enviar';
-    btn.classList.remove('bg-emerald-600');
-    btn.classList.add('bg-red-600');
-    status.textContent = 'Hubo un problema. Puedes intentar de nuevo o descargar el CSV manualmente.';
-    status.classList.add('text-red-400');
-    console.error('Error enviando datos:', error);
-  }
 }
