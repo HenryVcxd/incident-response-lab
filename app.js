@@ -1,10 +1,7 @@
 // ============================================
-// IncidentResponse Lab - app.js
-// Simulador de Respuesta ante Phishing
-// IEEE 7000-2021 · Cero PII
+// IncidentResponse Lab - app.js (Versión Final + Datos Cualitativos)
 // ============================================
 
-// URL de Google Apps Script (REEMPLAZADA CON LA TUYA)
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzWiiTNnV0iXFQiFeoQv8rs5AmdEzSqdnY0V5HvfSNi9AjGEAZrNyp9eazHEIe_VGd47A/exec';
 
 let scenarios = [];
@@ -23,7 +20,6 @@ let sessionData = {
 let decisionStartTime = null;
 let timerInterval = null;
 
-// ---------- INICIALIZACIÓN ----------
 document.addEventListener('DOMContentLoaded', async () => {
   await loadScenarios();
   bindEvents();
@@ -37,7 +33,6 @@ async function loadScenarios() {
     scenarios = data.scenarios;
   } catch (e) {
     console.error('Error cargando escenarios:', e);
-    alert('No se pudieron cargar los escenarios.');
   }
 }
 
@@ -54,7 +49,6 @@ function generateSessionId() {
   document.getElementById('session-code').textContent = 'Sesión: ' + id;
 }
 
-// ---------- FLUJO DE SIMULACIÓN ----------
 function startSimulation() {
   sessionData.startTime = new Date();
   currentScenarioIdx = 0;
@@ -107,6 +101,7 @@ function handleDecision(option) {
   clearInterval(timerInterval);
   const decisionTime = Math.floor((Date.now() - decisionStartTime) / 1000);
 
+  // Guardamos el TEXTO de la opción y el FEEDBACK
   sessionData.decisions.push({
     scenarioId: currentScenarioIdx + 1,
     scenarioTitle: scenarios[currentScenarioIdx].title,
@@ -115,7 +110,8 @@ function handleDecision(option) {
     cost: option.cost,
     damage: option.damage,
     optimal: option.optimal,
-    feedback: option.feedback
+    text: option.text,       // NUEVO
+    feedback: option.feedback // NUEVO
   });
 
   sessionData.totalCost += option.cost;
@@ -141,43 +137,28 @@ function showFeedback(option, time) {
   document.getElementById('fb-damage').textContent = option.damage;
 
   const btnNext = document.getElementById('btn-next');
-  
-  if (currentNodeIdx === 0) {
-    btnNext.textContent = '➡️ Fase 2: Mitigación del daño';
-  } else if (currentNodeIdx === 1) {
-    btnNext.textContent = '➡️ Fase 3: Reporte y Cierre';
-  } else {
-    btnNext.textContent = '🏁 Finalizar Escenario y pasar al siguiente';
-  }
+  if (currentNodeIdx === 0) btnNext.textContent = '➡️ Fase 2: Mitigación del daño';
+  else if (currentNodeIdx === 1) btnNext.textContent = '➡️ Fase 3: Reporte y Cierre';
+  else btnNext.textContent = '🏁 Finalizar Escenario y pasar al siguiente';
 }
 
 function nextStep() {
   const scenario = scenarios[currentScenarioIdx];
   currentNodeIdx++;
-
   if (currentNodeIdx >= scenario.nodes.length) {
     currentScenarioIdx++;
     currentNodeIdx = 0;
-    if (currentScenarioIdx >= scenarios.length) {
-      showResults();
-      return;
-    }
+    if (currentScenarioIdx >= scenarios.length) { showResults(); return; }
     renderScenario();
-  } else {
-    renderNode();
-  }
+  } else { renderNode(); }
 }
 
-// ---------- PANTALLA DE RESULTADOS ----------
 function showResults() {
   document.getElementById('screen-scenario').classList.add('hidden');
   document.getElementById('screen-results').classList.remove('hidden');
-
   const kpis = calculateKPIs();
   renderKPIs(kpis);
   renderChart();
-  
-  // Agregar botón para enviar datos automáticamente
   addAutoSendButton();
 }
 
@@ -189,7 +170,6 @@ function calculateKPIs() {
   const CE = maxCost - sessionData.totalCost; 
   const TFE = sessionData.totalCost < maxCost * 0.5 ? 100 : (sessionData.totalCost < maxCost ? 70 : 0); 
   const DPO = (((n - sessionData.optimalCount) / n) * 100).toFixed(1); 
-
   return { TPR, TAC, CE, TFE, DPO };
 }
 
@@ -201,7 +181,6 @@ function renderKPIs(kpis) {
     { label: 'Costo Económico Evitado (CE)', value: `$${kpis.CE.toLocaleString('es-CO')} COP`, meta: '≥ $300.000', color: kpis.CE >= 300000 ? 'emerald' : 'red' },
     { label: 'Desviación del Protocolo Óptimo (DPO)', value: `${kpis.DPO}%`, meta: '≤ 20%', color: parseFloat(kpis.DPO) <= 20 ? 'emerald' : 'amber' }
   ];
-
   grid.innerHTML = items.map(it => `
     <div class="bg-slate-900 border border-${it.color}-700 rounded-lg p-4">
       <div class="text-xs text-slate-400">${it.label}</div>
@@ -213,7 +192,6 @@ function renderKPIs(kpis) {
 
 function renderChart() {
   const ctx = document.getElementById('chart-scatter').getContext('2d');
-
   const byScenario = {};
   sessionData.decisions.forEach(d => {
     if (!byScenario[d.scenarioId]) byScenario[d.scenarioId] = { time: 0, cost: 0, count: 0 };
@@ -221,97 +199,38 @@ function renderChart() {
     byScenario[d.scenarioId].cost += d.cost;
     byScenario[d.scenarioId].count++;
   });
-
-  const points = Object.entries(byScenario).map(([id, v]) => ({
-    x: v.time / v.count, 
-    y: v.cost 
-  }));
-
+  const points = Object.entries(byScenario).map(([id, v]) => ({ x: v.time / v.count, y: v.cost }));
   new Chart(ctx, {
     type: 'scatter',
-    data: {
-      datasets: [{
-        label: 'Escenarios',
-        data: points,
-        backgroundColor: 'rgba(220, 38, 38, 0.8)',
-        borderColor: 'rgb(220, 38, 38)',
-        pointRadius: 10,
-        pointHoverRadius: 12
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { labels: { color: '#cbd5e1' } }
-      },
-      scales: {
-        x: {
-          title: { display: true, text: 'Tiempo promedio por decisión (s)', color: '#cbd5e1' },
-          ticks: { color: '#94a3b8' },
-          grid: { color: '#334155' }
-        },
-        y: {
-          title: { display: true, text: 'Costo acumulado (COP)', color: '#cbd5e1' },
-          ticks: { color: '#94a3b8', callback: v => '$' + v.toLocaleString('es-CO') },
-          grid: { color: '#334155' }
-        }
-      }
-    }
+    data: { datasets: [{ label: 'Escenarios', data: points, backgroundColor: 'rgba(220, 38, 38, 0.8)', borderColor: 'rgb(220, 38, 38)', pointRadius: 10 }] },
+    options: { responsive: true, plugins: { legend: { labels: { color: '#cbd5e1' } } }, scales: { x: { title: { display: true, text: 'Tiempo promedio por decisión (s)', color: '#cbd5e1' }, ticks: { color: '#94a3b8' }, grid: { color: '#334155' } }, y: { title: { display: true, text: 'Costo acumulado (COP)', color: '#cbd5e1' }, ticks: { color: '#94a3b8', callback: v => '$' + v.toLocaleString('es-CO') }, grid: { color: '#334155' } } } }
   });
 }
 
-// ---------- EXPORTAR CSV (RESPALDO MANUAL) ----------
 function exportCSV() {
-  const headers = ['SesionID','Escenario','Nodo','TiempoDecision_s','Costo_COP','Dano_%','Optimal','Feedback'];
-  const rows = sessionData.decisions.map(d => [
-    sessionData.sessionId,
-    d.scenarioId,
-    d.nodeId,
-    d.decisionTime,
-    d.cost,
-    d.damage,
-    d.optimal ? 1 : 0,
-    `"${d.feedback.replace(/"/g, '""')}"`
-  ]);
-
+  const headers = ['SesionID','Escenario','Nodo','TiempoDecision_s','Costo_COP','Dano_%','Optimal','Decision_Tomada','Feedback'];
+  const rows = sessionData.decisions.map(d => [sessionData.sessionId, d.scenarioId, d.nodeId, d.decisionTime, d.cost, d.damage, d.optimal ? 1 : 0, `"${d.text.replace(/"/g, '""')}"`, `"${d.feedback.replace(/"/g, '""')}"`]);
   const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `IncidentResponseLab_${sessionData.sessionId}.csv`;
-  a.click();
-  URL.revokeObjectURL(url);
+  const a = document.createElement('a'); a.href = url; a.download = `IncidentResponseLab_${sessionData.sessionId}.csv`; a.click(); URL.revokeObjectURL(url);
 }
 
-// ---------- ENVÍO AUTOMÁTICO A GOOGLE SHEETS ----------
 function addAutoSendButton() {
-  // Verificar si ya se envió para no duplicar
-  if (localStorage.getItem('sent_' + sessionData.sessionId) === 'true') {
-    return; 
-  }
-
+  if (localStorage.getItem('sent_' + sessionData.sessionId) === 'true') return;
   const resultsSection = document.getElementById('screen-results');
   const sendDiv = document.createElement('div');
   sendDiv.className = 'bg-slate-800 border border-emerald-700 rounded-xl p-6 mt-4 fade-in';
   sendDiv.innerHTML = `
     <h3 class="font-bold mb-3 text-emerald-400">📤 Contribuir al estudio (opcional)</h3>
-    <p class="text-sm text-slate-300 mb-4">
-      Tus datos son completamente anónimos (solo un ID aleatorio). 
-      Al enviarlos, ayudas a mejorar la investigación sobre ciberseguridad en Colombia.
-    </p>
+    <p class="text-sm text-slate-300 mb-4">Tus datos son completamente anónimos. Al enviarlos, ayudas a la investigación.</p>
     <div class="flex gap-3">
-      <button id="btn-send-data" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-6 rounded-lg transition">
-        ✅ Enviar datos anónimos al laboratorio
-      </button>
-      <button id="btn-export-csv-backup" class="flex-1 bg-slate-600 hover:bg-slate-700 text-white font-bold py-3 px-6 rounded-lg transition">
-        📥 Descargar CSV (respaldo)
-      </button>
+      <button id="btn-send-data" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-6 rounded-lg transition">✅ Enviar datos anónimos</button>
+      <button id="btn-export-csv-backup" class="flex-1 bg-slate-600 hover:bg-slate-700 text-white font-bold py-3 px-6 rounded-lg transition">📥 Descargar CSV</button>
     </div>
     <div id="send-status" class="mt-3 text-sm hidden"></div>
   `;
   resultsSection.appendChild(sendDiv);
-  
   document.getElementById('btn-send-data').addEventListener('click', sendDataToGoogleSheets);
   document.getElementById('btn-export-csv-backup').addEventListener('click', exportCSV);
 }
@@ -319,43 +238,15 @@ function addAutoSendButton() {
 async function sendDataToGoogleSheets() {
   const btn = document.getElementById('btn-send-data');
   const status = document.getElementById('send-status');
-  
-  btn.disabled = true;
-  btn.textContent = '⏳ Enviando...';
-  btn.classList.remove('bg-emerald-600');
-  btn.classList.add('bg-slate-600');
-  status.classList.remove('hidden');
-  status.textContent = 'Conectando con el servidor...';
-  status.className = 'mt-3 text-sm text-slate-300';
-  
+  btn.disabled = true; btn.textContent = '⏳ Enviando...'; btn.classList.remove('bg-emerald-600'); btn.classList.add('bg-slate-600');
+  status.classList.remove('hidden'); status.textContent = 'Conectando...'; status.className = 'mt-3 text-sm text-slate-300';
   try {
-    await fetch(GOOGLE_SCRIPT_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        sessionId: sessionData.sessionId,
-        decisions: sessionData.decisions
-      })
-    });
-    
-    // Como usamos no-cors, asumimos éxito si no hay error de red
-    btn.textContent = '✅ Datos enviados correctamente';
-    btn.classList.remove('bg-slate-600');
-    btn.classList.add('bg-emerald-700');
-    status.textContent = '¡Gracias por contribuir! Tus datos ya están en la hoja de cálculo.';
-    status.className = 'mt-3 text-sm text-emerald-400';
-    
+    await fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sessionId: sessionData.sessionId, decisions: sessionData.decisions }) });
+    btn.textContent = '✅ Datos enviados correctamente'; btn.classList.remove('bg-slate-600'); btn.classList.add('bg-emerald-700');
+    status.textContent = '¡Gracias! Tus datos ya están en la hoja.'; status.className = 'mt-3 text-sm text-emerald-400';
     localStorage.setItem('sent_' + sessionData.sessionId, 'true');
-    
   } catch (error) {
-    btn.textContent = '❌ Error al enviar';
-    btn.classList.remove('bg-slate-600');
-    btn.classList.add('bg-red-600');
-    status.textContent = 'Hubo un problema. Puedes intentar de nuevo o descargar el CSV manualmente.';
-    status.className = 'mt-3 text-sm text-red-400';
-    console.error('Error enviando datos:', error);
+    btn.textContent = '❌ Error al enviar'; btn.classList.remove('bg-slate-600'); btn.classList.add('bg-red-600');
+    status.textContent = 'Hubo un problema. Usa el CSV de respaldo.'; status.className = 'mt-3 text-sm text-red-400';
   }
 }
